@@ -8,5 +8,5 @@
  *      - URL del proyecto
  *      - anon public key
  */
-window.SUPABASE_URL = "";
-window.SUPABASE_ANON_KEY = "";
+window.SUPABASE_URL = "https://odsjzujxjejjxltratdi.supabase.co";
+window.SUPABASE_ANON_KEY = "sb_publishable_xUnHeFSWe5kTSWQ5GofWNA_Yfb3Fem1";
