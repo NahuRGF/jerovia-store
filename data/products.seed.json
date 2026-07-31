@@ -1,0 +1,18 @@
+[
+  { "id": "p01", "name": "Perfume Khamrah Lattafa 100ml", "category": "perfumes", "brand": "Lattafa", "price": 85000, "stock": 12, "emoji": "⚱️", "image": "assets/perfumes.svg", "note": "Fragancia gourmand, alta fijación." },
+  { "id": "p02", "name": "Perfume Yara Lattafa 100ml", "category": "perfumes", "brand": "Lattafa", "price": 82000, "stock": 8, "emoji": "⚱️", "image": "assets/perfumes.svg", "note": "Floral cremoso, ideal para mujer." },
+  { "id": "p03", "name": "Club de Nuit Intense Man Armaf", "category": "perfumes", "brand": "Armaf", "price": 88000, "stock": 5, "emoji": "⚱️", "image": "assets/perfumes.svg", "note": "Aromático amaderado, muy duradero." },
+  { "id": "p04", "name": "Asad Lattafa 100ml", "category": "perfumes", "brand": "Lattafa", "price": 79000, "stock": 0, "emoji": "⚱️", "image": "assets/perfumes.svg", "note": "Especiado y elegante, unisex." },
+  { "id": "p05", "name": "Neumático 175/70 R14", "category": "neumaticos", "brand": "Importado", "price": 115000, "stock": 20, "emoji": "🛞", "image": "assets/neumaticos.svg", "note": "Auto urbano, con garantía." },
+  { "id": "p06", "name": "Neumático 205/55 R16", "category": "neumaticos", "brand": "Importado", "price": 158000, "stock": 14, "emoji": "🛞", "image": "assets/neumaticos.svg", "note": "Compacto / sedán, alto rendimiento." },
+  { "id": "p07", "name": "Neumático 235/60 R18", "category": "neumaticos", "brand": "Importado", "price": 210000, "stock": 6, "emoji": "🛞", "image": "assets/neumaticos.svg", "note": "SUV, buena adherencia." },
+  { "id": "p08", "name": "Cubierta 31x10.50 R15 4x4", "category": "neumaticos", "brand": "Importado", "price": 320000, "stock": 0, "emoji": "🛞", "image": "assets/neumaticos.svg", "note": "Todo terreno, uso mixto." },
+  { "id": "p09", "name": "Celular gama media 256GB", "category": "electronica", "brand": "Importado", "price": 385000, "stock": 10, "emoji": "📱", "image": "assets/electronica.svg", "note": "Doble SIM, carga rápida." },
+  { "id": "p10", "name": "Auriculares inalámbricos", "category": "electronica", "brand": "Importado", "price": 45000, "stock": 25, "emoji": "🎧", "image": "assets/electronica.svg", "note": "Con estuche de carga, Bluetooth 5.3." },
+  { "id": "p11", "name": "Smartwatch con GPS", "category": "electronica", "brand": "Importado", "price": 98000, "stock": 7, "emoji": "⌚", "image": "assets/electronica.svg", "note": "Monitoreo de salud y notificaciones." },
+  { "id": "p12", "name": "Parlante Bluetooth", "category": "electronica", "brand": "Importado", "price": 52000, "stock": 30, "emoji": "🔊", "image": "assets/electronica.svg", "note": "Impermeable, 20h de batería." },
+  { "id": "p13", "name": "Smart TV 55\" 4K", "category": "electrodomesticos", "brand": "Importado", "price": 720000, "stock": 4, "emoji": "📺", "image": "assets/electrodomesticos.svg", "note": "Android TV, HDR10." },
+  { "id": "p14", "name": "Aspiradora robot", "category": "electrodomesticos", "brand": "Importado", "price": 240000, "stock": 0, "emoji": "🤖", "image": "assets/electrodomesticos.svg", "note": "Mapeo inteligente, auto-carga." },
+  { "id": "p15", "name": "Cafetera espresso", "category": "electrodomesticos", "brand": "Importado", "price": 89000, "stock": 15, "emoji": "☕", "image": "assets/electrodomesticos.svg", "note": "15 bares, vaporizador incluido." },
+  { "id": "p16", "name": "Aire acondicionado 3000W", "category": "electrodomesticos", "brand": "Importado", "price": 980000, "stock": 0, "emoji": "❄️", "image": "assets/electrodomesticos.svg", "note": "Frío / calor, inverter." }
+]

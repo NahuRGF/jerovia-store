@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Gestión de productos | Jerovia Store</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-body">
+
+  <div class="admin-lock" id="lock">
+    <form class="admin-lock__card" id="lockForm">
+      <img src="assets/logo.svg" alt="Jerovia Store" class="admin-lock__logo">
+      <h1 class="admin-lock__title">Acceso restringido</h1>
+      <p class="admin-lock__text">Ingresá tus credenciales para gestionar los productos.</p>
+      <input type="text" id="lockUser" class="admin-lock__input" placeholder="Email o usuario" autocomplete="username" autofocus required>
+      <input type="password" id="lockPassword" class="admin-lock__input" placeholder="Contraseña" autocomplete="current-password" required>
+      <button type="submit" class="btn btn--gold btn--block" id="lockBtn">Entrar</button>
+      <p class="admin-lock__error" id="lockError" hidden>Usuario o contraseña incorrectos.</p>
+      <a href="index.html" class="admin-lock__back">Volver al sitio</a>
+    </form>
+  </div>
+
+  <header class="header">
+    <div class="container header__inner">
+      <a href="index.html" class="brand">
+        <img src="assets/logo.svg" alt="Jerovia Store" class="brand__logo">
+        <span class="brand__name">JEROVIA<span class="brand__accent"> STORE</span></span>
+      </a>
+      <div class="admin__head-actions">
+        <a href="index.html" class="btn btn--ghost">Ver sitio</a>
+        <button type="button" class="btn btn--ghost" id="logoutBtn" hidden>Cerrar sesión</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="admin">
+    <div class="container">
+
+      <header class="admin__head">
+        <div>
+          <h1 class="admin__title">Gestión de productos</h1>
+          <p class="admin__subtitle">Los cambios se publican al instante en la web.</p>
+        </div>
+        <div class="admin__stats">
+          <div class="admin__stat"><strong id="statTotal">0</strong><span>productos</span></div>
+        </div>
+      </header>
+
+      <section class="admin__panel" id="productFormPanel">
+        <h2 class="admin__panel-title" id="formTitle">Nuevo producto</h2>
+        <form id="productForm" class="admin__form" autocomplete="off">
+          <input type="hidden" id="fId">
+
+          <label class="field">
+            <span>Nombre del producto *</span>
+            <input type="text" id="fName" placeholder="Ej: Perfume Khamrah Lattafa 100ml" required>
+          </label>
+
+          <div class="admin__row">
+            <label class="field">
+              <span>Categoría *</span>
+              <select id="fCategory" required></select>
+            </label>
+            <label class="field">
+              <span>Marca</span>
+              <input type="text" id="fBrand" placeholder="Ej: Lattafa">
+            </label>
+          </div>
+
+          <div class="admin__row">
+            <label class="field">
+              <span>Precio (ARS) *</span>
+              <input type="number" id="fPrice" min="0" step="any" placeholder="Ej: 85000" required>
+            </label>
+            <label class="field">
+              <span>Stock (cantidad disponible)</span>
+              <input type="number" id="fStock" min="0" step="1" placeholder="Ej: 12">
+            </label>
+          </div>
+
+          <label class="field">
+            <span>Nota corta (opcional)</span>
+            <input type="text" id="fNote" placeholder="Ej: Fragancia gourmand, alta fijación">
+          </label>
+
+          <fieldset class="admin__img-mode">
+            <legend>Imagen del producto</legend>
+            <div class="admin__img-options">
+              <label class="admin__img-opt">
+                <input type="radio" name="imgMode" value="emoji" checked>
+                <span>Emoji</span>
+              </label>
+              <label class="admin__img-opt">
+                <input type="radio" name="imgMode" value="file">
+                <span>Subir imagen</span>
+              </label>
+              <label class="admin__img-opt">
+                <input type="radio" name="imgMode" value="url">
+                <span>URL de imagen</span>
+              </label>
+            </div>
+
+            <div class="admin__img-input is-active" id="imgEmoji">
+              <label class="field">
+                <span>Emoji</span>
+                <input type="text" id="fEmoji" placeholder="Ej: ⚱️" maxlength="8">
+              </label>
+            </div>
+
+            <div class="admin__img-input" id="imgFile">
+              <label class="field">
+                <span>Elegir archivo (JPG/PNG/WebP)</span>
+                <input type="file" id="fImageFile" accept="image/*">
+              </label>
+              <p class="admin__hint">Podés subir una imagen (JPG/PNG/WebP) o pegar la URL de una imagen existente.</p>
+            </div>
+
+            <div class="admin__img-input" id="imgUrl">
+              <label class="field">
+                <span>URL de la imagen</span>
+                <input type="url" id="fImageUrl" placeholder="https://.../foto.jpg">
+              </label>
+            </div>
+
+            <div class="admin__preview">
+              <span>Vista previa:</span>
+              <div class="admin__preview-box" id="previewBox">🛍️</div>
+            </div>
+          </fieldset>
+
+          <div class="admin__actions">
+            <button type="submit" class="btn btn--gold">Guardar producto</button>
+            <button type="button" class="btn btn--ghost" id="cancelEdit">Cancelar</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="admin__panel">
+        <h2 class="admin__panel-title">Productos del catálogo</h2>
+
+        <div class="admin__tools">
+          <input type="search" id="searchInput" class="admin__search" placeholder="Buscar producto...">
+          <select id="filterCategory" class="admin__filter">
+            <option value="todos">Todas las categorías</option>
+          </select>
+        </div>
+
+        <div class="admin__list" id="productList"></div>
+
+        <div class="admin__danger">
+          <button type="button" class="btn btn--ghost" id="resetBtn">Restaurar catálogo de ejemplo</button>
+        </div>
+      </section>
+
+      <section class="admin__panel">
+        <h2 class="admin__panel-title">Respaldar / Publicar</h2>
+        <p class="admin__hint">
+          Descargá un respaldo con todos los productos y, si hace falta, importalo más tarde.
+          El catálogo ya se publica automáticamente con cada cambio.
+        </p>
+        <div class="admin__actions">
+          <button type="button" class="btn btn--gold" id="exportBtn">Descargar respaldo JSON</button>
+          <label class="btn btn--ghost">
+            Importar JSON
+            <input type="file" id="importFile" accept=".json,application/json" hidden>
+          </label>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <div class="toast" id="toast" role="status"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

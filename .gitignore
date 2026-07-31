@@ -1,0 +1,18 @@
+# Dependencias
+node_modules/
+
+# Secretos y configuración local
+.env
+.env.*
+
+# Sesiones del servidor local
+data/sessions/
+
+# Imágenes subidas localmente (en la web se guardan en Supabase Storage)
+public/uploads/products/*
+!public/uploads/products/.gitkeep
+
+# Sistema / logs
+npm-debug.log*
+.DS_Store
+Thumbs.db
