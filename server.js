@@ -7,7 +7,7 @@ const session = require("express-session");
 const FileStore = require("session-file-store")(session);
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
-const { checkCredentials } = require("./src/auth");
+const { checkCredentials, requireAuth } = require("./src/auth");
 const productsRouter = require("./src/routes/products");
 
 const PORT = Number(process.env.PORT) || 3000;
@@ -123,6 +123,36 @@ app.get("/api/session", (req, res) => {
 });
 
 app.use("/api", productsRouter);
+
+const SETTINGS_FILE = path.join(__dirname, "data", "settings.json");
+const DEFAULT_SETTINGS = { currency: "ARS", rate: 1400 };
+
+function readSettings() {
+  try {
+    const cfg = JSON.parse(fs.readFileSync(SETTINGS_FILE, "utf8"));
+    return {
+      currency: cfg.currency === "USD" ? "USD" : "ARS",
+      rate: Number(cfg.rate) > 0 ? Number(cfg.rate) : DEFAULT_SETTINGS.rate,
+    };
+  } catch (e) {
+    return { ...DEFAULT_SETTINGS };
+  }
+}
+
+app.get("/api/settings", (req, res) => {
+  res.json(readSettings());
+});
+
+app.put("/api/settings", requireAuth, (req, res) => {
+  const body = req.body || {};
+  const currency = body.currency === "USD" ? "USD" : "ARS";
+  const rate = Number(body.rate);
+  if (!isFinite(rate) || rate <= 0) {
+    return res.status(400).json({ error: "Cotización inválida." });
+  }
+  fs.writeFileSync(SETTINGS_FILE, JSON.stringify({ currency, rate }, null, 2));
+  res.json({ ok: true, currency, rate });
+});
 
 app.use(express.static(PUBLIC_DIR, { index: "index.html", maxAge: IS_PROD ? "1h" : 0 }));
 

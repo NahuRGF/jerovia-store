@@ -8,6 +8,9 @@ node_modules/
 # Sesiones del servidor local
 data/sessions/
 
+# Configuración local (moneda y cotización) gestionada desde el panel
+data/settings.json
+
 # Imágenes subidas localmente (en la web se guardan en Supabase Storage)
 public/uploads/products/*
 !public/uploads/products/.gitkeep

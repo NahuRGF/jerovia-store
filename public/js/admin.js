@@ -100,6 +100,25 @@ const SupabaseLayer = {
     if (error) throw new Error("Error al subir la imagen: " + error.message);
     return this.client().storage.from("product-images").getPublicUrl(name).data.publicUrl;
   },
+  async loadSettings() {
+    const { data, error } = await this.client()
+      .from("settings")
+      .select("value")
+      .eq("key", "store_config")
+      .maybeSingle();
+    if (error) throw new Error(error.message);
+    return data && data.value ? data.value : { currency: "ARS", rate: 1400 };
+  },
+  async saveSettings(cfg) {
+    const value = {
+      currency: cfg.currency === "USD" ? "USD" : "ARS",
+      rate: Number(cfg.rate) > 0 ? Number(cfg.rate) : 1400,
+    };
+    const { error } = await this.client()
+      .from("settings")
+      .upsert({ key: "store_config", value }, { onConflict: "key" });
+    if (error) throw new Error(error.message);
+  },
 };
 
 const API = {
@@ -157,6 +176,14 @@ const API = {
     fd.append("image", file);
     const res = await Store.api("/api/upload", { method: "POST", body: fd });
     return res.url;
+  },
+  async loadSettings() {
+    if (this.isRemote()) return SupabaseLayer.loadSettings();
+    return Store.api("/api/settings");
+  },
+  async saveSettings(cfg) {
+    if (this.isRemote()) return SupabaseLayer.saveSettings(cfg);
+    return Store.api("/api/settings", { method: "PUT", body: JSON.stringify(cfg) });
   },
 };
 
@@ -245,6 +272,7 @@ function renderList() {
 function showPanel() {
   lock.remove();
   logoutBtn.hidden = false;
+  initSettings();
 }
 
 function showLock(message) {
@@ -468,3 +496,38 @@ document.getElementById("importFile").addEventListener("change", async (e) => {
 initCategorySelects();
 resetForm();
 initAuth();
+
+/* ---------- Configuración (moneda y cotización) ---------- */
+
+const cfgCurrency = document.getElementById("cfgCurrency");
+const cfgRate = document.getElementById("cfgRate");
+
+let cfgCurrencyValue = "ARS";
+
+function cfgSetCurrency(value) {
+  cfgCurrencyValue = value === "USD" ? "USD" : "ARS";
+  cfgCurrency.querySelectorAll(".admin__seg-btn").forEach((b) => {
+    b.classList.toggle("is-active", b.dataset.currency === cfgCurrencyValue);
+  });
+}
+
+cfgCurrency.querySelectorAll(".admin__seg-btn").forEach((b) => {
+  b.addEventListener("click", () => cfgSetCurrency(b.dataset.currency));
+});
+
+document.getElementById("cfgSave").addEventListener("click", async () => {
+  try {
+    await API.saveSettings({ currency: cfgCurrencyValue, rate: cfgRate.value });
+    showToast("Configuración guardada.");
+  } catch (err) {
+    showToast(err.message, true);
+  }
+});
+
+async function initSettings() {
+  try {
+    const cfg = await API.loadSettings();
+    cfgSetCurrency(cfg.currency);
+    cfgRate.value = cfg.rate;
+  } catch (e) {}
+}

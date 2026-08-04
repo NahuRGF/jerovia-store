@@ -51,3 +51,26 @@ create policy "admin edita imagenes" on storage.objects
 drop policy if exists "admin borra imagenes" on storage.objects;
 create policy "admin borra imagenes" on storage.objects
   for delete to authenticated using (bucket_id = 'product-images');
+
+-- ---------- Configuración de la web (moneda y cotización) ----------
+create table if not exists public.settings (
+  key text primary key,
+  value jsonb not null default '{}'::jsonb,
+  updated_at timestamptz not null default now()
+);
+
+alter table public.settings enable row level security;
+
+-- Cualquiera puede leer la configuración (la web pública)
+drop policy if exists "read settings publico" on public.settings;
+create policy "read settings publico" on public.settings
+  for select using (true);
+
+-- Solo usuarios logueados (el cliente en /admin.html) pueden cambiarla
+drop policy if exists "admin edita settings" on public.settings;
+create policy "admin edita settings" on public.settings
+  for all to authenticated using (true) with check (true);
+
+insert into public.settings (key, value)
+values ('store_config', '{"currency":"ARS","rate":1400}'::jsonb)
+on conflict (key) do nothing;

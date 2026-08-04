@@ -8,12 +8,12 @@ const Store = (() => {
 
   const WHATSAPP = "5493757334145";
 
-  const CURRENCY_KEY = "jerovia_currency";
-  const RATE_KEY = "jerovia_rate";
+  const DEFAULT_CURRENCY = "ARS";
+  const DEFAULT_RATE = 1400;
 
   let products = [];
-  let currency = localStorage.getItem(CURRENCY_KEY) || "ARS";
-  let rate = parseFloat(localStorage.getItem(RATE_KEY)) || 1400;
+  let currency = DEFAULT_CURRENCY;
+  let rate = DEFAULT_RATE;
 
   async function api(path, options = {}) {
     const res = await fetch(path, {
@@ -55,16 +55,47 @@ const Store = (() => {
     if (isSupabaseConfigured()) {
       try {
         products = (await loadRemote()) || [];
-        return;
       } catch (e) {
         products = [];
       }
+    } else {
+      try {
+        products = (await api("/api/products")) || [];
+      } catch (e) {
+        products = (await api("data/products.json")) || [];
+      }
     }
+    await loadSettings();
+  }
+
+  async function loadSettings() {
     try {
-      products = (await api("/api/products")) || [];
-    } catch (e) {
-      products = (await api("data/products.json")) || [];
-    }
+      if (isSupabaseConfigured()) {
+        const res = await fetch(
+          window.SUPABASE_URL + "/rest/v1/settings?key=eq.store_config&select=value",
+          {
+            headers: {
+              apikey: window.SUPABASE_ANON_KEY,
+              Authorization: "Bearer " + window.SUPABASE_ANON_KEY,
+            },
+          }
+        );
+        if (res.ok) {
+          const rows = await res.json();
+          if (rows && rows.length) applySettings(rows[0].value);
+        }
+      } else {
+        const cfg = await api("/api/settings");
+        applySettings(cfg);
+      }
+    } catch (e) {}
+  }
+
+  function applySettings(cfg) {
+    if (!cfg) return;
+    if (cfg.currency === "USD" || cfg.currency === "ARS") currency = cfg.currency;
+    const r = Number(cfg.rate);
+    if (isFinite(r) && r > 0) rate = r;
   }
 
   function getProducts() {
@@ -94,18 +125,6 @@ const Store = (() => {
     return rate;
   }
 
-  function setCurrency(value) {
-    currency = value === "USD" ? "USD" : "ARS";
-    localStorage.setItem(CURRENCY_KEY, currency);
-  }
-
-  function setRate(value) {
-    const r = Number(value);
-    if (!isFinite(r) || r <= 0) return;
-    rate = r;
-    localStorage.setItem(RATE_KEY, String(rate));
-  }
-
   function waLink(message) {
     return "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(message);
   }
@@ -120,8 +139,6 @@ const Store = (() => {
     formatPrice,
     getCurrency,
     getRate,
-    setCurrency,
-    setRate,
     waLink,
   };
 })();

@@ -390,6 +390,41 @@
   border-top: 1px solid var(--border);
 }
 
+.admin__seg {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+
+.admin__seg-btn {
+  border: 1px solid var(--border);
+  background: var(--bg-soft);
+  color: var(--text-dim);
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.6rem 1.1rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.admin__seg-btn:hover {
+  border-color: rgba(201, 162, 39, 0.5);
+  color: var(--gold-light);
+}
+
+.admin__seg-btn.is-active {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: #14140c;
+}
+
+.admin__seg-btn.is-active:hover {
+  color: #14140c;
+}
+
 .toast {
   position: fixed;
   left: 50%;

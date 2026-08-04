@@ -160,6 +160,30 @@
       </section>
 
       <section class="admin__panel">
+        <h2 class="admin__panel-title">Moneda y cotización</h2>
+        <p class="admin__hint">
+          Elegí en qué moneda se muestran los precios en la web y actualizá la cotización del dólar.
+          Los visitantes no pueden cambiar nada: el ajuste es solo desde acá.
+        </p>
+        <div class="admin__row">
+          <div class="field">
+            <span>Moneda visible en la web</span>
+            <div class="admin__seg" id="cfgCurrency" role="group" aria-label="Moneda visible en la web">
+              <button type="button" class="admin__seg-btn" data-currency="ARS">Pesos (ARS)</button>
+              <button type="button" class="admin__seg-btn" data-currency="USD">Dólares (USD)</button>
+            </div>
+          </div>
+          <label class="field">
+            <span>Cotización (1 US$ = X ARS)</span>
+            <input type="number" id="cfgRate" min="1" step="1" placeholder="Ej: 1400">
+          </label>
+        </div>
+        <div class="admin__actions">
+          <button type="button" class="btn btn--gold" id="cfgSave">Guardar configuración</button>
+        </div>
+      </section>
+
+      <section class="admin__panel">
         <h2 class="admin__panel-title">Respaldar / Publicar</h2>
         <p class="admin__hint">
           Descargá un respaldo con todos los productos y, si hace falta, importalo más tarde.

@@ -535,38 +535,3 @@ cartClear.addEventListener("click", () => {
   Cart.clear();
   showToast("Carrito vaciado");
 });
-
-/* ---------- Moneda y cotización ---------- */
-
-const currency = document.getElementById("currency");
-const rateInput = document.getElementById("rateInput");
-const currencyOpts = currency.querySelectorAll(".currency__opt");
-
-function applyCurrencyUI() {
-  const cur = Store.getCurrency();
-  currencyOpts.forEach((b) => {
-    const active = b.dataset.currency === cur;
-    b.classList.toggle("is-active", active);
-    b.setAttribute("aria-pressed", String(active));
-  });
-  currency.classList.toggle("is-ars", cur === "ARS");
-  rateInput.value = Store.getRate();
-}
-
-currencyOpts.forEach((b) => {
-  b.addEventListener("click", () => {
-    Store.setCurrency(b.dataset.currency);
-    applyCurrencyUI();
-    renderProducts();
-    Cart.render();
-  });
-});
-
-rateInput.addEventListener("change", () => {
-  Store.setRate(rateInput.value);
-  applyCurrencyUI();
-  renderProducts();
-  Cart.render();
-});
-
-applyCurrencyUI();
