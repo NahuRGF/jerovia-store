@@ -8,7 +8,12 @@ const Store = (() => {
 
   const WHATSAPP = "5493757334145";
 
+  const CURRENCY_KEY = "jerovia_currency";
+  const RATE_KEY = "jerovia_rate";
+
   let products = [];
+  let currency = localStorage.getItem(CURRENCY_KEY) || "ARS";
+  let rate = parseFloat(localStorage.getItem(RATE_KEY)) || 1400;
 
   async function api(path, options = {}) {
     const res = await fetch(path, {
@@ -71,7 +76,34 @@ const Store = (() => {
   }
 
   function formatPrice(n) {
-    return "$" + Number(n || 0).toLocaleString("es-AR");
+    const value = Number(n || 0);
+    if (currency === "USD" && rate > 0) {
+      return "US$ " + (value / rate).toLocaleString("en-US", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+    }
+    return "$" + value.toLocaleString("es-AR");
+  }
+
+  function getCurrency() {
+    return currency;
+  }
+
+  function getRate() {
+    return rate;
+  }
+
+  function setCurrency(value) {
+    currency = value === "USD" ? "USD" : "ARS";
+    localStorage.setItem(CURRENCY_KEY, currency);
+  }
+
+  function setRate(value) {
+    const r = Number(value);
+    if (!isFinite(r) || r <= 0) return;
+    rate = r;
+    localStorage.setItem(RATE_KEY, String(rate));
   }
 
   function waLink(message) {
@@ -86,6 +118,10 @@ const Store = (() => {
     getProducts,
     setProducts,
     formatPrice,
+    getCurrency,
+    getRate,
+    setCurrency,
+    setRate,
     waLink,
   };
 })();
