@@ -16,3 +16,6 @@ public/uploads/products/*
 npm-debug.log*
 .DS_Store
 Thumbs.db
+
+# Local Netlify folder
+.netlify
