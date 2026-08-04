@@ -8,11 +8,12 @@ const Store = (() => {
 
   const WHATSAPP = "5493757334145";
 
-  const DEFAULT_CURRENCY = "ARS";
+  const CURRENCY_KEY = "jerovia_currency";
+  const DEFAULT_CURRENCY = "USD";
   const DEFAULT_RATE = 1400;
 
   let products = [];
-  let currency = DEFAULT_CURRENCY;
+  let currency = localStorage.getItem(CURRENCY_KEY) || DEFAULT_CURRENCY;
   let rate = DEFAULT_RATE;
 
   async function api(path, options = {}) {
@@ -93,7 +94,6 @@ const Store = (() => {
 
   function applySettings(cfg) {
     if (!cfg) return;
-    if (cfg.currency === "USD" || cfg.currency === "ARS") currency = cfg.currency;
     const r = Number(cfg.rate);
     if (isFinite(r) && r > 0) rate = r;
   }
@@ -108,13 +108,14 @@ const Store = (() => {
 
   function formatPrice(n) {
     const value = Number(n || 0);
-    if (currency === "USD" && rate > 0) {
-      return "US$ " + (value / rate).toLocaleString("en-US", {
+    if (currency === "USD") {
+      return "US$ " + value.toLocaleString("en-US", {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
       });
     }
-    return "$" + value.toLocaleString("es-AR");
+    const ars = Math.round(value * rate);
+    return "$" + ars.toLocaleString("es-AR");
   }
 
   function getCurrency() {
@@ -123,6 +124,11 @@ const Store = (() => {
 
   function getRate() {
     return rate;
+  }
+
+  function setCurrency(value) {
+    currency = value === "ARS" ? "ARS" : "USD";
+    localStorage.setItem(CURRENCY_KEY, currency);
   }
 
   function waLink(message) {
@@ -139,6 +145,7 @@ const Store = (() => {
     formatPrice,
     getCurrency,
     getRate,
+    setCurrency,
     waLink,
   };
 })();

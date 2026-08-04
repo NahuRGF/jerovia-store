@@ -76,8 +76,8 @@
 
           <div class="admin__row">
             <label class="field">
-              <span>Precio (ARS) *</span>
-              <input type="number" id="fPrice" min="0" step="any" placeholder="Ej: 85000" required>
+              <span>Precio (US$) *</span>
+              <input type="number" id="fPrice" min="0" step="any" placeholder="Ej: 60" required>
             </label>
             <label class="field">
               <span>Stock (cantidad disponible)</span>
@@ -160,26 +160,19 @@
       </section>
 
       <section class="admin__panel">
-        <h2 class="admin__panel-title">Moneda y cotización</h2>
+        <h2 class="admin__panel-title">Cotización del dólar</h2>
         <p class="admin__hint">
-          Elegí en qué moneda se muestran los precios en la web y actualizá la cotización del dólar.
-          Los visitantes no pueden cambiar nada: el ajuste es solo desde acá.
+          Poné cuántos pesos vale 1 dólar. La web muestra los precios en dólares o en pesos
+          (US$ × cotización) según lo que elija cada comprador, calculado automáticamente.
         </p>
         <div class="admin__row">
-          <div class="field">
-            <span>Moneda visible en la web</span>
-            <div class="admin__seg" id="cfgCurrency" role="group" aria-label="Moneda visible en la web">
-              <button type="button" class="admin__seg-btn" data-currency="ARS">Pesos (ARS)</button>
-              <button type="button" class="admin__seg-btn" data-currency="USD">Dólares (USD)</button>
-            </div>
-          </div>
           <label class="field">
             <span>Cotización (1 US$ = X ARS)</span>
             <input type="number" id="cfgRate" min="1" step="1" placeholder="Ej: 1400">
           </label>
         </div>
         <div class="admin__actions">
-          <button type="button" class="btn btn--gold" id="cfgSave">Guardar configuración</button>
+          <button type="button" class="btn btn--gold" id="cfgSave">Guardar cotización</button>
         </div>
       </section>
 

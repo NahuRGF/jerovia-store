@@ -535,3 +535,28 @@ cartClear.addEventListener("click", () => {
   Cart.clear();
   showToast("Carrito vaciado");
 });
+
+/* ---------- Moneda visible (la elige el comprador) ---------- */
+
+const currencyEl = document.getElementById("currency");
+const currencyOpts = currencyEl.querySelectorAll(".currency__opt");
+
+function applyCurrencyUI() {
+  const cur = Store.getCurrency();
+  currencyOpts.forEach((b) => {
+    const active = b.dataset.currency === cur;
+    b.classList.toggle("is-active", active);
+    b.setAttribute("aria-pressed", String(active));
+  });
+}
+
+currencyOpts.forEach((b) => {
+  b.addEventListener("click", () => {
+    Store.setCurrency(b.dataset.currency);
+    applyCurrencyUI();
+    renderProducts();
+    Cart.render();
+  });
+});
+
+applyCurrencyUI();

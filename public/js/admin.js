@@ -107,13 +107,10 @@ const SupabaseLayer = {
       .eq("key", "store_config")
       .maybeSingle();
     if (error) throw new Error(error.message);
-    return data && data.value ? data.value : { currency: "ARS", rate: 1400 };
+    return data && data.value ? data.value : { rate: 1400 };
   },
   async saveSettings(cfg) {
-    const value = {
-      currency: cfg.currency === "USD" ? "USD" : "ARS",
-      rate: Number(cfg.rate) > 0 ? Number(cfg.rate) : 1400,
-    };
+    const value = { rate: Number(cfg.rate) > 0 ? Number(cfg.rate) : 1400 };
     const { error } = await this.client()
       .from("settings")
       .upsert({ key: "store_config", value }, { onConflict: "key" });
@@ -497,28 +494,14 @@ initCategorySelects();
 resetForm();
 initAuth();
 
-/* ---------- Configuración (moneda y cotización) ---------- */
+/* ---------- Configuración (cotización del dólar) ---------- */
 
-const cfgCurrency = document.getElementById("cfgCurrency");
 const cfgRate = document.getElementById("cfgRate");
-
-let cfgCurrencyValue = "ARS";
-
-function cfgSetCurrency(value) {
-  cfgCurrencyValue = value === "USD" ? "USD" : "ARS";
-  cfgCurrency.querySelectorAll(".admin__seg-btn").forEach((b) => {
-    b.classList.toggle("is-active", b.dataset.currency === cfgCurrencyValue);
-  });
-}
-
-cfgCurrency.querySelectorAll(".admin__seg-btn").forEach((b) => {
-  b.addEventListener("click", () => cfgSetCurrency(b.dataset.currency));
-});
 
 document.getElementById("cfgSave").addEventListener("click", async () => {
   try {
-    await API.saveSettings({ currency: cfgCurrencyValue, rate: cfgRate.value });
-    showToast("Configuración guardada.");
+    await API.saveSettings({ rate: cfgRate.value });
+    showToast("Cotización guardada.");
   } catch (err) {
     showToast(err.message, true);
   }
@@ -527,7 +510,6 @@ document.getElementById("cfgSave").addEventListener("click", async () => {
 async function initSettings() {
   try {
     const cfg = await API.loadSettings();
-    cfgSetCurrency(cfg.currency);
     cfgRate.value = cfg.rate;
   } catch (e) {}
 }
