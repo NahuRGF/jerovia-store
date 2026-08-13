@@ -15,6 +15,7 @@ const Store = (() => {
   let products = [];
   let currency = localStorage.getItem(CURRENCY_KEY) || DEFAULT_CURRENCY;
   let rate = DEFAULT_RATE;
+  let categoryImages = {};
 
   async function api(path, options = {}) {
     const res = await fetch(path, {
@@ -96,6 +97,19 @@ const Store = (() => {
     if (!cfg) return;
     const r = Number(cfg.rate);
     if (isFinite(r) && r > 0) rate = r;
+    if (cfg.categoryImages && typeof cfg.categoryImages === "object") {
+      Object.entries(cfg.categoryImages).forEach(([key, value]) => {
+        if (typeof value === "string" && value) categoryImages[key] = value;
+      });
+    }
+  }
+
+  function getCategoryImages() {
+    return categoryImages;
+  }
+
+  function getCategoryImage(cat) {
+    return categoryImages[cat] || "";
   }
 
   function getProducts() {
@@ -146,6 +160,8 @@ const Store = (() => {
     getCurrency,
     getRate,
     setCurrency,
+    getCategoryImages,
+    getCategoryImage,
     waLink,
   };
 })();

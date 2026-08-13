@@ -302,9 +302,20 @@ const revealObserver = new IntersectionObserver(
 );
 document.querySelectorAll(".reveal").forEach((el) => revealObserver.observe(el));
 
+function applyCategoryImages() {
+  const imgs = document.querySelectorAll(".cat-card__media img");
+  imgs.forEach((img) => {
+    const card = img.closest("[data-cat]");
+    if (!card) return;
+    const custom = Store.getCategoryImage(card.dataset.cat);
+    if (custom) img.src = custom;
+  });
+}
+
 renderSkeletons();
 Store.load()
   .then(() => {
+    applyCategoryImages();
     renderProducts();
     Cart.render();
   })

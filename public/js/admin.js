@@ -110,7 +110,10 @@ const SupabaseLayer = {
     return data && data.value ? data.value : { rate: 1400 };
   },
   async saveSettings(cfg) {
-    const value = { rate: Number(cfg.rate) > 0 ? Number(cfg.rate) : 1400 };
+    const value = {
+      rate: Number(cfg.rate) > 0 ? Number(cfg.rate) : 1400,
+      categoryImages: cfg.categoryImages || {},
+    };
     const { error } = await this.client()
       .from("settings")
       .upsert({ key: "store_config", value }, { onConflict: "key" });
@@ -500,7 +503,7 @@ const cfgRate = document.getElementById("cfgRate");
 
 document.getElementById("cfgSave").addEventListener("click", async () => {
   try {
-    await API.saveSettings({ rate: cfgRate.value });
+    await API.saveSettings({ rate: cfgRate.value, categoryImages });
     showToast("Cotización guardada.");
   } catch (err) {
     showToast(err.message, true);
@@ -511,5 +514,61 @@ async function initSettings() {
   try {
     const cfg = await API.loadSettings();
     cfgRate.value = cfg.rate;
+    categoryImages = cfg.categoryImages || {};
+    renderCatRows();
   } catch (e) {}
 }
+
+/* ---------- Imágenes de las categorías ---------- */
+
+const catImagesEl = document.getElementById("catImages");
+const catSaveBtn = document.getElementById("catSave");
+
+let categoryImages = {};
+
+function renderCatRows() {
+  catImagesEl.innerHTML = "";
+  Object.entries(Store.CATEGORY_LABELS).forEach(([cat, label]) => {
+    const wrap = document.createElement("div");
+    wrap.innerHTML =
+      '<div class="admin__cat" data-cat="' + cat + '">' +
+      '<div class="admin__cat-thumb"><img src="assets/' + cat + '.svg" alt="" data-cat-thumb></div>' +
+      '<div class="admin__cat-info">' +
+      "<strong>" + label + "</strong>" +
+      '<label class="btn btn--ghost">Elegir foto<input type="file" accept="image/*" hidden></label>' +
+      "</div>" +
+      "</div>";
+    const row = wrap.firstChild;
+    const thumb = row.querySelector("[data-cat-thumb]");
+    if (categoryImages[cat]) thumb.src = categoryImages[cat];
+    row.querySelector('input[type="file"]').addEventListener("change", async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      if (file.size > 2 * 1024 * 1024) {
+        showToast("Imagen muy grande (máx 2 MB).", true);
+        e.target.value = "";
+        return;
+      }
+      try {
+        showToast("Subiendo imagen...");
+        const url = await API.upload(file);
+        categoryImages[cat] = url;
+        thumb.src = url;
+        showToast("Imagen cargada para " + label + ". Tocá Guardar imágenes.");
+      } catch (err) {
+        showToast(err.message, true);
+      }
+      e.target.value = "";
+    });
+    catImagesEl.appendChild(row);
+  });
+}
+
+catSaveBtn.addEventListener("click", async () => {
+  try {
+    await API.saveSettings({ rate: cfgRate.value, categoryImages });
+    showToast("Imágenes guardadas.");
+  } catch (err) {
+    showToast(err.message, true);
+  }
+});

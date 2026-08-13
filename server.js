@@ -133,9 +133,10 @@ function readSettings() {
     return {
       currency: cfg.currency === "USD" ? "USD" : "ARS",
       rate: Number(cfg.rate) > 0 ? Number(cfg.rate) : DEFAULT_SETTINGS.rate,
+      categoryImages: cfg.categoryImages && typeof cfg.categoryImages === "object" ? cfg.categoryImages : {},
     };
   } catch (e) {
-    return { ...DEFAULT_SETTINGS };
+    return { ...DEFAULT_SETTINGS, categoryImages: {} };
   }
 }
 
@@ -150,8 +151,13 @@ app.put("/api/settings", requireAuth, (req, res) => {
   if (!isFinite(rate) || rate <= 0) {
     return res.status(400).json({ error: "Cotización inválida." });
   }
-  fs.writeFileSync(SETTINGS_FILE, JSON.stringify({ currency, rate }, null, 2));
-  res.json({ ok: true, currency, rate });
+  const categoryImages =
+    body.categoryImages && typeof body.categoryImages === "object" ? body.categoryImages : {};
+  fs.writeFileSync(
+    SETTINGS_FILE,
+    JSON.stringify({ currency, rate, categoryImages }, null, 2)
+  );
+  res.json({ ok: true, currency, rate, categoryImages });
 });
 
 app.use(express.static(PUBLIC_DIR, { index: "index.html", maxAge: IS_PROD ? "1h" : 0 }));
