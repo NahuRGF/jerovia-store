@@ -1194,7 +1194,8 @@ a.contact__row:hover {
 }
 
 .field input,
-.field textarea {
+.field textarea,
+.field select {
   width: 100%;
   padding: 0.9rem 1.1rem;
   border-radius: 12px;
@@ -1212,7 +1213,8 @@ a.contact__row:hover {
 }
 
 .field input:focus,
-.field textarea:focus {
+.field textarea:focus,
+.field select:focus {
   border-color: var(--gold);
   box-shadow: var(--glow);
 }

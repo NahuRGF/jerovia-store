@@ -5,7 +5,7 @@
     "category": "perfumes",
     "brand": "Lattafa",
     "price": 60.71,
-    "stock": 12,
+    "stock": 1,
     "emoji": "⚱️",
     "image": "assets/perfumes.svg",
     "note": "Fragancia gourmand, alta fijación."
@@ -16,7 +16,7 @@
     "category": "perfumes",
     "brand": "Lattafa",
     "price": 58.57,
-    "stock": 8,
+    "stock": 1,
     "emoji": "⚱️",
     "image": "assets/perfumes.svg",
     "note": "Floral cremoso, ideal para mujer."
@@ -27,7 +27,7 @@
     "category": "perfumes",
     "brand": "Armaf",
     "price": 62.86,
-    "stock": 5,
+    "stock": 1,
     "emoji": "⚱️",
     "image": "assets/perfumes.svg",
     "note": "Aromático amaderado, muy duradero."
@@ -49,7 +49,7 @@
     "category": "neumaticos",
     "brand": "Importado",
     "price": 82.14,
-    "stock": 20,
+    "stock": 1,
     "emoji": "🛞",
     "image": "assets/neumaticos.svg",
     "note": "Auto urbano, con garantía."
@@ -60,7 +60,7 @@
     "category": "neumaticos",
     "brand": "Importado",
     "price": 112.86,
-    "stock": 14,
+    "stock": 1,
     "emoji": "🛞",
     "image": "assets/neumaticos.svg",
     "note": "Compacto / sedán, alto rendimiento."
@@ -71,7 +71,7 @@
     "category": "neumaticos",
     "brand": "Importado",
     "price": 150,
-    "stock": 6,
+    "stock": 1,
     "emoji": "🛞",
     "image": "assets/neumaticos.svg",
     "note": "SUV, buena adherencia."
@@ -93,7 +93,7 @@
     "category": "electronica",
     "brand": "Importado",
     "price": 275,
-    "stock": 10,
+    "stock": 1,
     "emoji": "📱",
     "image": "assets/electronica.svg",
     "note": "Doble SIM, carga rápida."
@@ -104,7 +104,7 @@
     "category": "electronica",
     "brand": "Importado",
     "price": 32.14,
-    "stock": 25,
+    "stock": 1,
     "emoji": "🎧",
     "image": "assets/electronica.svg",
     "note": "Con estuche de carga, Bluetooth 5.3."
@@ -115,7 +115,7 @@
     "category": "electronica",
     "brand": "Importado",
     "price": 70,
-    "stock": 7,
+    "stock": 1,
     "emoji": "⌚",
     "image": "assets/electronica.svg",
     "note": "Monitoreo de salud y notificaciones."
@@ -126,7 +126,7 @@
     "category": "electronica",
     "brand": "Importado",
     "price": 37.14,
-    "stock": 30,
+    "stock": 1,
     "emoji": "🔊",
     "image": "assets/electronica.svg",
     "note": "Impermeable, 20h de batería."
@@ -137,7 +137,7 @@
     "category": "electrodomesticos",
     "brand": "Importado",
     "price": 514.29,
-    "stock": 4,
+    "stock": 1,
     "emoji": "📺",
     "image": "assets/electrodomesticos.svg",
     "note": "Android TV, HDR10."
@@ -159,7 +159,7 @@
     "category": "electrodomesticos",
     "brand": "Importado",
     "price": 63.57,
-    "stock": 15,
+    "stock": 1,
     "emoji": "☕",
     "image": "assets/electrodomesticos.svg",
     "note": "15 bares, vaporizador incluido."

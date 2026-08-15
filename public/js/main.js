@@ -44,7 +44,7 @@ function productMedia(product) {
     const badge = document.createElement("span");
     badge.className =
       product.stock > 0 ? "product__stock product__stock--ok" : "product__stock product__stock--sold";
-    badge.textContent = product.stock > 0 ? "En stock · " + product.stock : "Agotado";
+    badge.textContent = product.stock > 0 ? "En stock" : "Sin stock";
     media.appendChild(badge);
   }
   return media;
@@ -74,7 +74,7 @@ function createProduct(product, index) {
   addBtn.textContent = "Agregar al carrito";
   if (product.stock === 0) {
     addBtn.disabled = true;
-    addBtn.textContent = "Agotado";
+    addBtn.textContent = "Sin stock";
   } else {
     addBtn.addEventListener("click", () => Cart.add(product.id));
   }

@@ -61,7 +61,7 @@ const SupabaseLayer = {
       emoji: String(p.emoji || "🛍️"),
       image: String(p.image || ""),
       note: String(p.note || ""),
-      stock: Number.isInteger(p.stock) && p.stock >= 0 ? p.stock : 0,
+      stock: p.stock > 0 ? 1 : 0,
     };
   },
   async create(payload) {
@@ -255,7 +255,7 @@ function renderList() {
         '<div class="admin__item-meta">' + escapeHTML(Store.CATEGORY_LABELS[p.category] || p.category) +
         (p.brand ? " · " + escapeHTML(p.brand) : "") +
         '<span class="admin__item-price"> · ' + Store.formatPrice(p.price) + "</span>" +
-        (Number.isInteger(p.stock) ? '<span class="admin__item-stock"> · Stock: ' + p.stock + "</span>" : "") +
+        (p.stock > 0 ? '<span class="admin__item-stock"> · En stock</span>' : '<span class="admin__item-stock"> · Sin stock</span>') +
         "</div>" +
         "</div>" +
         '<div class="admin__item-btns">' +
@@ -347,7 +347,7 @@ async function submitHandler(e) {
     category: fCategory.value,
     brand: document.getElementById("fBrand").value.trim(),
     price: Number(document.getElementById("fPrice").value),
-    stock: Number(document.getElementById("fStock").value),
+    stock: document.getElementById("fStock").value === "1" ? 1 : 0,
     note: document.getElementById("fNote").value.trim(),
     emoji: document.getElementById("fEmoji").value.trim() || "🛍️",
     image: currentImage(),
@@ -380,7 +380,7 @@ function startEdit(id) {
   fCategory.value = product.category;
   document.getElementById("fBrand").value = product.brand || "";
   document.getElementById("fPrice").value = product.price;
-  document.getElementById("fStock").value = Number.isInteger(product.stock) ? product.stock : 0;
+  document.getElementById("fStock").value = product.stock > 0 ? "1" : "0";
   document.getElementById("fNote").value = product.note || "";
   document.getElementById("fEmoji").value = product.emoji || "";
   document.getElementById("fImageUrl").value = product.image || "";
@@ -395,7 +395,7 @@ function resetForm() {
   form.reset();
   document.getElementById("fEmoji").value = "🛍️";
   document.getElementById("fImageUrl").value = "";
-  document.getElementById("fStock").value = "";
+  document.getElementById("fStock").value = "1";
   fCategory.value = Object.keys(Store.CATEGORY_LABELS)[0];
   setImgMode("emoji");
   formTitle.textContent = "Nuevo producto";
