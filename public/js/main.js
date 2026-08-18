@@ -40,13 +40,6 @@ function productMedia(product) {
     span.textContent = product.emoji || "🛍️";
     media.appendChild(span);
   }
-  if (product.stock !== undefined && product.stock !== null) {
-    const badge = document.createElement("span");
-    badge.className =
-      product.stock > 0 ? "product__stock product__stock--ok" : "product__stock product__stock--sold";
-    badge.textContent = product.stock > 0 ? "En stock" : "Sin stock";
-    media.appendChild(badge);
-  }
   return media;
 }
 
@@ -72,12 +65,7 @@ function createProduct(product, index) {
   addBtn.type = "button";
   addBtn.className = "btn btn--gold product__btn";
   addBtn.textContent = "Agregar al carrito";
-  if (product.stock === 0) {
-    addBtn.disabled = true;
-    addBtn.textContent = "Sin stock";
-  } else {
-    addBtn.addEventListener("click", () => Cart.add(product.id));
-  }
+  addBtn.addEventListener("click", () => Cart.add(product.id));
 
   const waBtn = document.createElement("a");
   waBtn.className = "product__wa";
