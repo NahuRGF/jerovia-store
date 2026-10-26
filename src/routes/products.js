@@ -12,6 +12,7 @@ const CATEGORY_LABELS = {
   perfumes: "Perfumes árabes",
   electronica: "Electrónica",
   electrodomesticos: "Electrodomésticos",
+  bazar: "Bazar",
 };
 
 const ALLOWED_CATEGORIES = Object.keys(CATEGORY_LABELS);

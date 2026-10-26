@@ -4,6 +4,7 @@ const Store = (() => {
     perfumes: "Perfumes árabes",
     electronica: "Electrónica",
     electrodomesticos: "Electrodomésticos",
+    bazar: "Bazar",
   };
 
   const WHATSAPP = "5493757334145";
